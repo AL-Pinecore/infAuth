@@ -54,8 +54,8 @@ public class InfAuth {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "infauth";
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static final Map<UUID, Long> loginTimers = new HashMap<>();
-    private static final Map<UUID, Boolean> authenticatedPlayers = new HashMap<>();
+    private static final Map<UUID, Long> loginTimers = new ConcurrentHashMap<>();
+    private static final Map<UUID, Boolean> authenticatedPlayers = new ConcurrentHashMap<>();
 
     public InfAuth(FMLJavaModLoadingContext ctx) {
         IEventBus modEventBus = ctx.getModEventBus();

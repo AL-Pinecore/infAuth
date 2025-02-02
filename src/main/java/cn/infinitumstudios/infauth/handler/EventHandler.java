@@ -7,6 +7,7 @@ import cn.infinitumstudios.infauth.helper.LocalizationHelper;
 import cn.infinitumstudios.infauth.manager.PlayerDataManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
@@ -24,13 +25,12 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mod.EventBusSubscriber(modid = InfAuth.MODID)
 public class EventHandler {
-    private static final Map<UUID, Vec3> joinPositions = new HashMap<>();
+    private static final Map<UUID, Vec3> joinPositions = new ConcurrentHashMap<>();
 
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -105,9 +105,11 @@ public class EventHandler {
     public void onServerTick(ServerTickEvent event) {
         if (event.getServer().getPlayerList().getPlayers().isEmpty()) return;
 
-        for (ServerPlayer player : event.getServer().getPlayerList().getPlayers()) {
+        // Create a copy of the player list to avoid concurrent modification
+        List<ServerPlayer> players = new ArrayList<>(event.getServer().getPlayerList().getPlayers());
+
+        for (ServerPlayer player : players) {
             if (!InfAuth.isAuthenticated(player)) {
-                // Prevent movement by constantly resetting position
                 Vec3 joinPos = joinPositions.get(player.getUUID());
                 if (joinPos != null) {
                     player.teleportTo(joinPos.x, joinPos.y, joinPos.z);
@@ -115,7 +117,10 @@ public class EventHandler {
 
                 Long loginTime = InfAuth.getLoginTimer(player.getUUID());
                 if (loginTime != null && System.currentTimeMillis() - loginTime > Config.timeoutSeconds * 1000L) {
-                    player.connection.disconnect(LocalizationHelper.timeout());
+                    // Schedule the disconnect for the next tick to avoid concurrent modification
+                    player.getServer().tell(new TickTask(0, () -> {
+                        player.connection.disconnect(LocalizationHelper.timeout());
+                    }));
                 }
             }
         }
