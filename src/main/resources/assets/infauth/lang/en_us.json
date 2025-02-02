@@ -1,5 +1,6 @@
 {
   "infauth.command.already_registered": "You are already registered!",
+  "infauth.command.already_logged_in": "You are already logged in!",
   "infauth.command.not_registered": "You are not registered! Use /register",
   "infauth.command.password_too_short": "Password must be at least %d characters long!",
   "infauth.command.password_username": "Password cannot be your username!",

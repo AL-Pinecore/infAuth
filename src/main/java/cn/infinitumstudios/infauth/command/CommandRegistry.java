@@ -12,6 +12,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import java.util.UUID;
+
 public class CommandRegistry {
 
     @SubscribeEvent
@@ -22,8 +24,9 @@ public class CommandRegistry {
                                 .executes(context -> {
                                     ServerPlayer player = context.getSource().getPlayerOrException();
                                     String password = StringArgumentType.getString(context, "password");
+                                    UUID uuid = player.getUUID();
 
-                                    if (PlayerDataManager.isRegistered(player.getGameProfile().getName())) {
+                                    if (PlayerDataManager.isRegistered(uuid)) {
                                         context.getSource().sendFailure(LocalizationHelper.alreadyRegistered());
                                         return Command.SINGLE_SUCCESS;
                                     }
@@ -38,7 +41,7 @@ public class CommandRegistry {
                                         return Command.SINGLE_SUCCESS;
                                     }
 
-                                    PlayerDataManager.register(player.getGameProfile().getName(), password);
+                                    PlayerDataManager.register(uuid, password);
                                     InfAuth.setAuthenticated(player, true);
                                     context.getSource().sendSuccess(LocalizationHelper::registerSuccess, false);
                                     return Command.SINGLE_SUCCESS;
@@ -51,14 +54,19 @@ public class CommandRegistry {
                                 .executes(context -> {
                                     ServerPlayer player = context.getSource().getPlayerOrException();
                                     String password = StringArgumentType.getString(context, "password");
-                                    String username = player.getGameProfile().getName();
+                                    UUID uuid = player.getUUID();
 
-                                    if (!PlayerDataManager.isRegistered(username)) {
+                                    if(InfAuth.isAuthenticated(player)){
+                                        context.getSource().sendFailure(LocalizationHelper.alreadyLoggedIn());
+                                        return Command.SINGLE_SUCCESS;
+                                    }
+
+                                    if (!PlayerDataManager.isRegistered(uuid)) {
                                         context.getSource().sendFailure(LocalizationHelper.notRegistered());
                                         return Command.SINGLE_SUCCESS;
                                     }
 
-                                    if (!PlayerDataManager.checkPassword(username, password)) {
+                                    if (!PlayerDataManager.checkPassword(uuid, password)) {
                                         context.getSource().sendFailure(LocalizationHelper.wrongPassword());
                                         return Command.SINGLE_SUCCESS;
                                     }

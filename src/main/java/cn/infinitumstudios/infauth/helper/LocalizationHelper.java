@@ -60,5 +60,9 @@ public class LocalizationHelper {
     public static MutableComponent loginPrompt() {
         return getComponent("message.login_prompt");
     }
+
+    public static MutableComponent alreadyLoggedIn() {
+        return getComponent("command.already_logged_in");
+    }
 }
 

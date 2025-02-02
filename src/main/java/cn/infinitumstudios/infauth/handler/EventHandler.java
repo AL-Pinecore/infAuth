@@ -38,7 +38,7 @@ public class EventHandler {
             InfAuth.setAuthenticated(player, false);
             joinPositions.put(player.getUUID(), player.position());
 
-            if (PlayerDataManager.isRegistered(player.getGameProfile().getName())) {
+            if (PlayerDataManager.isRegistered(player.getUUID())) {
                 player.sendSystemMessage(LocalizationHelper.welcomeBack());
                 player.sendSystemMessage(LocalizationHelper.loginPrompt());
             } else {
