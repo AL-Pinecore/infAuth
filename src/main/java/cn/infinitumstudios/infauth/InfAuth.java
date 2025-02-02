@@ -1,6 +1,7 @@
 package cn.infinitumstudios.infauth;
 
 import cn.infinitumstudios.infauth.command.CommandRegistry;
+import cn.infinitumstudios.infauth.handler.CommandHandler;
 import cn.infinitumstudios.infauth.handler.EventHandler;
 import cn.infinitumstudios.infauth.handler.NetworkHandler;
 import cn.infinitumstudios.infauth.manager.PlayerDataManager;
@@ -67,6 +68,7 @@ public class InfAuth {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new EventHandler());
         MinecraftForge.EVENT_BUS.register(new CommandRegistry());
+        MinecraftForge.EVENT_BUS.register(new CommandHandler());
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ctx.registerConfig(ModConfig.Type.COMMON, Config.SPEC);

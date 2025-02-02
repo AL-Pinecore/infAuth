@@ -7,6 +7,7 @@
   "infauth.command.register_success": "Successfully registered!",
   "infauth.command.wrong_password": "Wrong password!",
   "infauth.command.login_success": "Successfully logged in!",
+  "infauth.command.must_login_first": "§cYou must login first before using any commands!",
   "infauth.kick.timeout": "Login timeout",
   "infauth.message.welcome_new": "§6Welcome! Please register to play on this server.",
   "infauth.message.welcome_back": "§6Welcome back! Please log in to continue.",

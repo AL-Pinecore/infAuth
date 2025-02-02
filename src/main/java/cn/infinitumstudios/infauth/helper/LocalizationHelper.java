@@ -64,5 +64,9 @@ public class LocalizationHelper {
     public static MutableComponent alreadyLoggedIn() {
         return getComponent("command.already_logged_in");
     }
+
+    public static MutableComponent mustLoginFirst() {
+        return getComponent("command.must_login_first");
+    }
 }
 
