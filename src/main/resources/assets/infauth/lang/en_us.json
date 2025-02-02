@@ -1,0 +1,14 @@
+{
+  "infauth.command.already_registered": "You are already registered!",
+  "infauth.command.not_registered": "You are not registered! Use /register",
+  "infauth.command.password_too_short": "Password must be at least %d characters long!",
+  "infauth.command.password_username": "Password cannot be your username!",
+  "infauth.command.register_success": "Successfully registered!",
+  "infauth.command.wrong_password": "Wrong password!",
+  "infauth.command.login_success": "Successfully logged in!",
+  "infauth.kick.timeout": "Login timeout",
+  "infauth.message.welcome_new": "§6Welcome! Please register to play on this server.",
+  "infauth.message.welcome_back": "§6Welcome back! Please log in to continue.",
+  "infauth.message.register_prompt": "§eUse §f/register <password> §eto create an account.",
+  "infauth.message.login_prompt": "§eUse §f/login <password> §eto authenticate."
+}
