@@ -23,7 +23,8 @@ public class CommandHandler {
             // Allow only login and register commands when not authenticated
             if (!InfAuth.isAuthenticated(player)) {
                 if (!command.startsWith("login") && !command.startsWith("register")) {
-                    event.setCanceled(true);
+                    if(event.isCancelable())
+                        event.setCanceled(true);
                     player.sendSystemMessage(LocalizationHelper.mustLoginFirst());
                 }
             }

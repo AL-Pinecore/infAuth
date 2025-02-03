@@ -69,35 +69,40 @@ public class EventHandler {
     @SubscribeEvent
     public void onInventoryInteraction(PlayerInteractEvent.EntityInteract event) {
         if (event.getEntity() instanceof ServerPlayer player && !InfAuth.isAuthenticated(player)) {
-            event.setCanceled(true);
+            if(event.isCancelable())
+                event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void onItemUse(PlayerInteractEvent.RightClickItem event) {
         if (event.getEntity() instanceof ServerPlayer player && !InfAuth.isAuthenticated(player)) {
-            event.setCanceled(true);
+            if(event.isCancelable())
+                event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void onBlockInteract(PlayerInteractEvent.RightClickBlock event) {
         if (event.getEntity() instanceof ServerPlayer player && !InfAuth.isAuthenticated(player)) {
-            event.setCanceled(true);
+            if(event.isCancelable())
+                event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void onInventoryOpen(PlayerContainerEvent event) {
         if (event.getEntity() instanceof ServerPlayer player && !InfAuth.isAuthenticated(player)) {
-            event.setCanceled(true);
+            if(event.isCancelable())
+                event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
         if (event.getEntity() instanceof ServerPlayer player && !InfAuth.isAuthenticated(player)) {
-            event.setCanceled(true);
+            if(event.isCancelable())
+                event.setCanceled(true);
         }
     }
 
@@ -130,9 +135,8 @@ public class EventHandler {
     @SubscribeEvent
     public void onClientInput(InputEvent event) {
         if (!ClientAuthState.isAuthenticated() && Minecraft.getInstance().getCurrentServer() != null) {
-            if (event.isCancelable()) {
+            if (event.isCancelable())
                 event.setCanceled(true);
-            }
         }
     }
 }
