@@ -131,13 +131,14 @@ public class EventHandler {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onClientInput(InputEvent event) {
-        if (!ClientAuthState.isAuthenticated() && Minecraft.getInstance().getCurrentServer() != null) {
-            if (event.isCancelable())
-                event.setCanceled(true);
-        }
-    }
+    // Removing this because it also disables UI interactions, which is not good...
+//    @OnlyIn(Dist.CLIENT)
+//    @SubscribeEvent
+//    public void onClientInput(InputEvent event) {
+//        if (!ClientAuthState.isAuthenticated() && Minecraft.getInstance().getCurrentServer() != null) {
+//            if (event.isCancelable())
+//                event.setCanceled(true);
+//        }
+//    }
 }
 
